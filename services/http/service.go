@@ -3,6 +3,7 @@ package http
 import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"munshee/services/autho"
 	"munshee/services/chartofaccounts"
 	"net/http"
 	"os"
@@ -33,6 +34,7 @@ func (service *HttpService) InitializeRouter(COAService chartofaccounts.ChartOfA
 	service.Router.HandleFunc("/accounts", service.COAService.HttpGetAll).Methods("GET")
 	service.Router.HandleFunc("/account", service.COAService.HttpCreate).Methods("POST")
 	service.Router.HandleFunc("/account/{accountId}", service.COAService.HttpUpdate).Methods("PUT")
+	autho.SetOAuthRoutes(service.Router)
 }
 
 func (service *HttpService) Start(listenAddress string){
